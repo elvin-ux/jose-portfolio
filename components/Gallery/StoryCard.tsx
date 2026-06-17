@@ -5,6 +5,8 @@ import type { StoryItem } from "@/data/stories";
 
 interface StoryCardProps {
   story: StoryItem;
+  onLoad?: () => void;
+  isActiveByDefault?: boolean;
 }
 
 /**
@@ -21,12 +23,12 @@ interface StoryCardProps {
  * · Image fills postcard at native aspect ratio — no cropping ever.
  * · On hover: card lifts and shadow deepens; rotation eases slightly toward 0.
  */
-export default function StoryCard({ story }: StoryCardProps) {
+export default function StoryCard({ story, onLoad, isActiveByDefault = false }: StoryCardProps) {
   return (
     <article
       id={story.id}
-      className={`story-card story-card--${story.orientation}`}
-      style={{ transform: `rotate(${story.rotate}deg)` }}
+      className={`story-card story-card--${story.orientation} ${isActiveByDefault ? "visible" : ""}`}
+      style={{ "--card-rotation": `${story.rotate}deg` } as React.CSSProperties}
       aria-label={`Story: ${story.caption}`}
     >
       <div className="story-card__postcard">
@@ -40,6 +42,7 @@ export default function StoryCard({ story }: StoryCardProps) {
             quality={90}
             className="story-card__image"
             sizes="(max-width: 640px) 88vw, (max-width: 1024px) 400px, 840px"
+            onLoad={onLoad}
           />
         </div>
 

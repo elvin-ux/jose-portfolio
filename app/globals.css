@@ -252,6 +252,7 @@ body {
 
 /* ── Section wrapper ─────────────────────────────────────────────── */
 .stories-section {
+  position: relative;
   background-color: var(--color-bg);
   width: 100%;
   padding-top: clamp(80px, 10vw, 140px);
@@ -367,21 +368,36 @@ body {
 
 /* ══════════════════════════════════════════════════════════════════
    STORY CARD — article element
-   Rotation applied via inline style (story.rotate degrees).
-   Transition here gives smooth hover lift + de-rotation.
+   Phase 2: Cinematic reveal system.
+   · All animation is owned by GSAP — no CSS transitions on transform.
+   · Initial state: translated down + scaled down + blurred.
+   · Reveal: GSAP ScrollTrigger lifts card into place with layered
+     inner content stagger (photo → metadata → caption).
+   · Hover: shadow-only — no movement, no lift, no scale.
    ══════════════════════════════════════════════════════════════════ */
 
 .story-card {
   position: relative;
-  z-index: 1;
-  transform-origin: center bottom;
-  transition:
-    transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
-    z-index 0s;
+  z-index: 2;
+  transform-origin: center center;
+  /* Cinematic initial state — GSAP takes over on scroll */
+  opacity: 0;
+  transform: translateY(80px) scale(0.94) rotate(var(--card-rotation));
+  filter: blur(10px);
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+  /* Only transition box-shadow — GSAP owns all other properties */
+  transition: box-shadow 0.6s ease;
+}
+
+.story-card.visible {
+  /* Revealed state — set by GSAP after animation completes */
+  pointer-events: auto;
 }
 
 .story-card:hover {
   z-index: 50;
+  /* No position change. No lift. No scale. Shadow-only. */
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -403,16 +419,16 @@ body {
   padding: 8px 8px 10px; /* Highly compact bottom padding */
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.5s ease, transform 0.5s ease;
+  transition: box-shadow 0.5s ease;
 }
 
-.story-card__postcard:hover {
+.story-card:hover .story-card__postcard {
+  /* Imperceptible shadow enhancement — the only hover effect */
   box-shadow:
-    0 4px  12px  rgba(26, 21, 19, 0.05),
-    0 12px 36px  rgba(26, 21, 19, 0.06),
-    0 28px 64px  rgba(26, 21, 19, 0.06),
-    0 48px 100px rgba(26, 21, 19, 0.04);
-  transform: translateY(-5px);
+    0 2px  8px   rgba(26, 21, 19, 0.04),
+    0 10px 30px  rgba(26, 21, 19, 0.08),
+    0 18px 42px  rgba(26, 21, 19, 0.07),
+    0 32px 80px  rgba(26, 21, 19, 0.04);
 }
 
 /* ── Image area ───────────────────────────────────────────────────── */
@@ -440,11 +456,32 @@ body {
   gap: 4px;
 }
 
+/* Inner reveal initial states — hidden until GSAP stagger fires */
+.story-card__meta-top {
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+
+.story-card__caption {
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: opacity, transform;
+}
+
+/* First card (visible by default) — inner elements shown immediately */
+.story-card.visible .story-card__meta-top,
+.story-card.visible .story-card__caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .story-card__meta-top {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 8px;
+  /* opacity/transform managed by GSAP — do not add CSS transition here */
 }
 
 .story-card__location {
@@ -484,6 +521,7 @@ body {
   color: var(--color-sub);
   line-height: 1.5;
   letter-spacing: 0.005em;
+  /* opacity/transform managed by GSAP — do not add CSS transition here */
 }
 
 /* ── Section footer flourish ─────────────────────────────────────── */
@@ -553,14 +591,47 @@ body {
   }
 
   .story-card {
-    /* Disable rotation on mobile — feels awkward at narrow widths */
-    transform: none !important;
+    /* Mobile: reduce translateY for the initial hidden state (40px instead of 80px) */
+    /* Rotation also disabled on mobile — feels awkward at narrow widths */
+    transform: translateY(40px) scale(0.94) !important;
   }
 
   .stories-stream__row .story-card--portrait,
   .stories-stream__row .story-card--landscape {
     width: min(78vw, 300px) !important;
   }
+}
+
+/* ── Trajectory System ────────────────────────────────────────────── */
+.stories-trajectory {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+
+.story-path {
+  fill: none;
+  stroke: rgba(184, 142, 68, 0.85);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 3 12;
+}
+
+.story-dot {
+  fill: #b88e44;
+  filter: drop-shadow(0 0 8px rgba(184, 142, 68, 0.6));
+  transform-origin: center;
+}
+
+.trajectory-mask-path {
+  fill: none;
+  stroke: white;
+  stroke-width: 6;
+  stroke-linecap: round;
 }
 
 
