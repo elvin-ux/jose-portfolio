@@ -1,0 +1,566 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+@import "tailwindcss";
+
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --color-bg:      #F3EEE3;   /* warm off-shade golden paper ivory */
+  --color-accent:  #DCC7B1;   /* dividers, metadata */
+  --color-neutral: #A39684;   /* supporting text, labels */
+  --color-text:    #1A1513;   /* bold black for headline, brand, nav */
+  --color-sub:     #423C36;   /* readable light black/charcoal for genres & body copy */
+  --color-gold:    #B38024;   /* rich bold antique gold */
+
+  --font-serif: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── Selection ──────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar          { width: 3px; }
+::-webkit-scrollbar-track    { background: var(--color-bg); }
+::-webkit-scrollbar-thumb    { background: var(--color-accent); border-radius: 2px; }
+
+/* ─── Typography utilities ───────────────────────────────────────── */
+.font-serif { font-family: var(--font-serif); }
+.font-sans  { font-family: var(--font-sans); }
+
+/* ─── Focus ──────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 1.5px solid var(--color-neutral);
+  outline-offset: 4px;
+  border-radius: 1px;
+}
+
+/* ─── Hero responsive padding ────────────────────────────────────── */
+.hero-px {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+@media (min-width: 640px)  { .hero-px { padding-left: 48px;  padding-right: 48px;  } }
+@media (min-width: 1024px) { .hero-px { padding-left: 64px;  padding-right: 64px;  } }
+@media (min-width: 1280px) { .hero-px { padding-left: 80px;  padding-right: 80px;  } }
+
+.nav-py {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+@media (min-width: 768px)  { .nav-py { padding-top: 48px; padding-bottom: 48px; } }
+
+/* ─── Nav responsive ─────────────────────────────────────────────── */
+.nav-links {
+  display: none;
+}
+@media (min-width: 768px) {
+  .nav-links { display: flex; }
+}
+
+.nav-hamburger {
+  display: flex;
+}
+@media (min-width: 768px) {
+  .nav-hamburger { display: none; }
+}
+
+/* ─── Scroll indicator ───────────────────────────────────────────── */
+.scroll-indicator {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .scroll-indicator { display: flex; }
+}
+
+/* ─── Line reveal wrapper ────────────────────────────────────────── */
+.line-clip {
+  overflow: hidden;
+  display: block;
+}
+
+/* ─── CTA underline ──────────────────────────────────────────────── */
+.cta-underline {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--color-text);
+  transform-origin: left;
+  transform: scaleX(1);
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.cta-link:hover .cta-underline {
+  transform: scaleX(1.15);
+}
+.cta-arrow {
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.cta-link:hover .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* ─── Nav link underline ─────────────────────────────────────────── */
+.nav-link-line {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-text);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.nav-link:hover .nav-link-line {
+  transform: scaleX(1);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Hero Layout Grid — CSS-native responsive layout ──────────────── */
+.hero-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 1024px) {
+  .hero-layout-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 3rem;
+  }
+}
+
+.hero-content-col {
+  grid-column: span 1 / span 1;
+}
+@media (min-width: 1024px) {
+  .hero-content-col {
+    grid-column: span 9 / span 9;
+  }
+}
+
+.hero-metadata-col {
+  grid-column: span 1 / span 1;
+  display: flex;
+}
+@media (min-width: 1024px) {
+  .hero-metadata-col {
+    grid-column: span 3 / span 3;
+    justify-content: flex-end;
+  }
+}
+
+/* ─── Hero Index Grid & Borders ─────────────────────────────────── */
+.hero-index-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .hero-index-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .hero-index-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.hero-index-item {
+  border-bottom: 1px solid var(--color-accent);
+}
+@media (min-width: 768px) {
+  .hero-index-item:nth-child(odd) {
+    border-right: 1px solid var(--color-accent);
+  }
+  .hero-index-item:nth-child(1),
+  .hero-index-item:nth-child(2) {
+    border-bottom: 1px solid var(--color-accent);
+  }
+  .hero-index-item:nth-child(3),
+  .hero-index-item:nth-child(4) {
+    border-bottom: none;
+  }
+}
+@media (min-width: 1024px) {
+  .hero-index-item {
+    border-bottom: none;
+    border-right: 1px solid var(--color-accent);
+  }
+  .hero-index-item:last-child {
+    border-right: none;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   STORIES GALLERY  —  "Stories Collected Along The Way"
+   ═══════════════════════════════════════════════════════════════════
+
+   COMPOSITION SYSTEM (desktop 1536px):
+   · Portrait  → 340px wide (hard cap)    — gallery-worthy print scale
+   · Landscape → 400px wide (hard cap)    — noticeably larger than portrait
+   · Left lane  → starts at ~8vw (~123px) — left zone
+   · Right lane → starts at ~50vw (~768px)— right zone, balanced centre
+   · Centre gap → ~305px                  — room for future curved arrow paths
+   · Vertical gap → 40–72px              — connected story wall, not isolated floats
+
+   ROTATION:
+   · Each card has a unique subtle tilt from story.rotate (degrees).
+   · Applied as inline style on <article> — left cards negative, right positive.
+   · On hover: card lifts + shadow deepens. Rotation intentionally preserved on hover.
+
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ─────────────────────────────────────────────── */
+.stories-section {
+  background-color: var(--color-bg);
+  width: 100%;
+  padding-top: clamp(80px, 10vw, 140px);
+  padding-bottom: clamp(80px, 10vw, 140px);
+  overflow-x: hidden;
+}
+
+/* ── Section header ───────────────────────────────────────────────── */
+.stories-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(32px, 4.5vw, 60px);
+}
+
+.stories-header__eyebrow {
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  margin-bottom: 18px;
+  display: block;
+  opacity: 0.65;
+  letter-spacing: 0.06em;
+}
+
+.stories-header__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  max-width: 20ch;
+}
+
+/* ── Card stream ─────────────────────────────────────────────────── */
+.stories-stream {
+  display: flex;
+  flex-direction: column;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 clamp(16px, 2vw, 32px);
+  gap: 0; /* Margins/overlaps are handled via negative margin-top on rows */
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   LANE POSITION SYSTEM & VERTICAL OVERLAP
+   ══════════════════════════════════════════════════════════════════
+
+   Both rows use justify-content inside a centered container.
+   Left cards align left, right cards align right.
+   
+   To establish a tight editorial story flow, cards overlap vertically.
+   The next card's top edge aligns with the lower third of the previous card
+   (just above the metadata section).
+   ══════════════════════════════════════════════════════════════════ */
+
+.stories-stream__row {
+  display: flex;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  transition: z-index 0s;
+}
+
+.stories-stream__row:hover {
+  z-index: 10; /* Hovered card immediately sits on top of overlapping cards */
+}
+
+/* Vertical overlap: pull subsequent rows up to overlap the previous card's footer */
+.stories-stream__row + .stories-stream__row {
+  margin-top: 40px;
+}
+
+@media (min-width: 1200px) {
+
+  .stories-stream__row--left {
+    justify-content: flex-start;
+    padding-left: 200px;
+  }
+
+  .stories-stream__row--right {
+    justify-content: flex-end;
+    padding-right: 200px;
+  }
+  .stories-stream__row + .stories-stream__row {
+    margin-top: 10px;
+  }
+}
+
+/* ── Card sizing (20% larger, varying size-tiers for rhythm) ─────── */
+
+/* Portrait widths (450px to 550px) */
+.stories-stream__row--medium .story-card--portrait { width: 340px; }
+.stories-stream__row--large .story-card--portrait  { width: 380px; }
+.stories-stream__row--hero .story-card--portrait   { width: 420px; }
+.stories-stream__row .story-card--portrait {
+  flex-shrink: 0;
+}
+
+/* Landscape widths (650px to 850px) */
+.stories-stream__row--medium .story-card--landscape { width: 400px; }
+.stories-stream__row--large .story-card--landscape  { width: 450px; }
+.stories-stream__row--hero .story-card--landscape   { width: 500px; }
+.stories-stream__row .story-card--landscape {
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   STORY CARD — article element
+   Rotation applied via inline style (story.rotate degrees).
+   Transition here gives smooth hover lift + de-rotation.
+   ══════════════════════════════════════════════════════════════════ */
+
+.story-card {
+  position: relative;
+  z-index: 1;
+  transform-origin: center bottom;
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+    z-index 0s;
+}
+
+.story-card:hover {
+  z-index: 50;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   POSTCARD SURFACE
+   · Compact 8px mat padding around image
+   · Shorter footer height (~15–20% of card)
+   · Soft ambient drop-shadow system
+   ══════════════════════════════════════════════════════════════════ */
+
+.story-card__postcard {
+  background-color: #FAF8F4;
+  border: 1px solid rgba(163, 150, 132, 0.18);
+  /* Soft layered ambient drop shadows */
+  box-shadow:
+    0 2px  8px   rgba(26, 21, 19, 0.03),
+    0 8px  24px  rgba(26, 21, 19, 0.04),
+    0 16px 48px  rgba(26, 21, 19, 0.04),
+    0 32px 80px  rgba(26, 21, 19, 0.03);
+  padding: 8px 8px 10px; /* Highly compact bottom padding */
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
+}
+
+.story-card__postcard:hover {
+  box-shadow:
+    0 4px  12px  rgba(26, 21, 19, 0.05),
+    0 12px 36px  rgba(26, 21, 19, 0.06),
+    0 28px 64px  rgba(26, 21, 19, 0.06),
+    0 48px 100px rgba(26, 21, 19, 0.04);
+  transform: translateY(-5px);
+}
+
+/* ── Image area ───────────────────────────────────────────────────── */
+.story-card__image-wrapper {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.story-card__image {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+  object-position: center top;
+}
+
+/* ── Metadata — inside postcard below image ───────────────────────── */
+.story-card__meta {
+  padding-top: 8px;
+  padding-left: 2px;
+  padding-right: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.story-card__meta-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.story-card__location {
+  font-family: var(--font-sans);
+  font-size: 0.54rem;
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.story-card__date {
+  font-family: var(--font-sans);
+  font-size: 0.5rem;
+  font-weight: 300;
+  color: var(--color-neutral);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.story-card__rule {
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  opacity: 0.35;
+  flex-shrink: 0;
+}
+
+.story-card__caption {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: var(--color-sub);
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+}
+
+/* ── Section footer flourish ─────────────────────────────────────── */
+.stories-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: clamp(48px, 6.5vw, 84px);
+  padding: 0 clamp(24px, 6vw, 80px);
+}
+
+.stories-footer__rule {
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: var(--color-accent);
+  opacity: 0.32;
+  display: block;
+}
+
+.stories-footer__mark {
+  color: var(--color-gold);
+  font-size: 0.65rem;
+  opacity: 0.45;
+}
+
+/* ── Tablet (768–1024px): proportionally scaled ───────────────────── */
+@media (max-width: 1024px) {
+  .stories-stream__row--medium .story-card--portrait { width: 280px; }
+  .stories-stream__row--large .story-card--portrait  { width: 320px; }
+  .stories-stream__row--hero .story-card--portrait   { width: 360px; }
+   .stories-stream__row + .stories-stream__row {
+  margin-top: 80px;
+}
+  .stories-stream__row--medium .story-card--landscape { width: 380px; }
+  .stories-stream__row--large .story-card--landscape  { width: 420px; }
+  .stories-stream__row--hero .story-card--landscape   { width: 460px; }
+  .stories-stream__row--left,
+.stories-stream__row--right {
+  padding-left: 0;
+  padding-right: 0;
+}
+}
+
+/* ── Mobile (≤640px): single centered column, no rotation ────────── */
+@media (max-width: 640px) {
+  .stories-section {
+    padding-top: 64px;
+    padding-bottom: 64px; 
+  }
+
+  .stories-header {
+    padding-left: 24px;
+    margin-bottom: 40px;
+  }
+
+  .stories-stream {
+    gap: 0;
+  }
+   .stories-stream__row + .stories-stream__row {
+      margin-top: 48px;
+  }
+
+  .stories-stream__row {
+    justify-content: center;
+  }
+
+  .story-card {
+    /* Disable rotation on mobile — feels awkward at narrow widths */
+    transform: none !important;
+  }
+
+  .stories-stream__row .story-card--portrait,
+  .stories-stream__row .story-card--landscape {
+    width: min(78vw, 300px) !important;
+  }
+}
+
+
