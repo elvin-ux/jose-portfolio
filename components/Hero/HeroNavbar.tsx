@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import { useState, useEffect } from "react";
+
 const NAV_LINKS = [
-  { label: "Work",    href: "#work" },
   { label: "Stories", href: "#stories" },
   { label: "About",   href: "#about" },
-  { label: "Inquire", href: "#inquire" },
+  { label: "Contact", href: "#contact" },
 ] as const;
 
 const listVariants = {
@@ -25,6 +26,34 @@ const linkVariants = {
 };
 
 export default function HeroNavbar() {
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+      const storiesEl = document.getElementById("stories");
+      const aboutEl = document.getElementById("about");
+      const contactEl = document.getElementById("contact");
+
+      let current = "";
+      if (storiesEl && scrollPosition >= storiesEl.offsetTop) {
+        current = "#stories";
+      }
+      if (aboutEl && scrollPosition >= aboutEl.offsetTop) {
+        current = "#about";
+      }
+      if (contactEl && scrollPosition >= contactEl.offsetTop) {
+        current = "#contact";
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <header
       role="banner"
@@ -51,23 +80,26 @@ export default function HeroNavbar() {
         <nav role="navigation" aria-label="Primary navigation" className="hidden md:block">
           <motion.ul
             role="list"
-            className="flex items-center gap-8 list-none"
+            className="flex items-center gap-[56px] list-none"
             variants={listVariants}
             initial="hidden"
             animate="visible"
           >
-            {NAV_LINKS.map(({ label, href }) => (
-              <motion.li key={href} variants={linkVariants}>
-                <Link
-                  href={href}
-                  className="nav-link font-sans font-medium uppercase text-[var(--color-text)] relative inline-block"
-                  style={{ fontSize: "0.72rem", letterSpacing: "0.2em" }}
-                >
-                  {label}
-                  <span className="nav-link-line" aria-hidden="true" />
-                </Link>
-              </motion.li>
-            ))}
+            {NAV_LINKS.map(({ label, href }) => {
+              const isActive = activeSection === href;
+              return (
+                <motion.li key={href} variants={linkVariants}>
+                  <Link
+                    href={href}
+                    className={`nav-link font-sans font-medium uppercase text-[var(--color-text)] relative inline-block ${isActive ? "active" : ""}`}
+                    style={{ fontSize: "0.72rem", letterSpacing: "0.2em" }}
+                  >
+                    {label}
+                    <span className="nav-link-line" aria-hidden="true" />
+                  </Link>
+                </motion.li>
+              );
+            })}
           </motion.ul>
         </nav>
 

@@ -9,7 +9,7 @@
   --color-neutral: #A39684;   /* supporting text, labels */
   --color-text:    #1A1513;   /* bold black for headline, brand, nav */
   --color-sub:     #423C36;   /* readable light black/charcoal for genres & body copy */
-  --color-gold:    #B38024;   /* rich bold antique gold */
+  --color-gold:    #c49a47;   /* refined gold color */
 
   --font-serif: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
   --font-sans:  'DM Sans', system-ui, sans-serif;
@@ -36,6 +36,12 @@ html {
 body {
   font-family: var(--font-sans);
   background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, transparent 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: auto, 220px 220px;
+  background-attachment: fixed;
   color: var(--color-text);
   overflow-x: hidden;
   cursor: default;
@@ -634,4 +640,527 @@ body {
   stroke-linecap: round;
 }
 
+.story-arrow {
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ABOUT SECTION  —  "Telling stories that stay."
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Font Family definitions */
+:root {
+  --font-serif-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-script: 'Mr De Haviland', cursive;
+  --color-about-bg: #F3EEE3;
+}
+
+.about-section {
+  position: relative;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255,255,255,0.45) 0%,
+      transparent 100%
+    ),
+    var(--color-bg);
+
+  width: 100%;
+  
+  padding-top: 80px;
+  padding-bottom: 80px;
+  overflow-x: hidden;
+  color: var(--color-text);
+}
+
+
+.about-paper-grain {
+  display: none;
+}
+
+.about-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-inline: clamp(40px, 6vw, 120px);
+}
+
+/* Eyebrow styling */
+.about-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c49a47;
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* Main title styling - reduced to match the new style rules */
+.about-title {
+  font-family: var(--font-serif-cormorant);
+  font-size: clamp(48px, 6vw, 76px);
+  font-weight: 400;
+  line-height: 0.95;
+  color: #2D2219;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+
+/* Gold decorative divider - exactly matching Stories */
+.about-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 240px;
+  margin-block: 16px 24px;
+}
+
+.about-divider::before,
+.about-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #c49a47;
+  opacity: 0.45;
+}
+
+.divider-star {
+  font-size: 10px;
+  color: #c49a47;
+}
+
+/* Biography Copy styling - reduced size & spacing */
+.about-bio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about-bio-paragraph {
+  font-family: var(--font-serif-cormorant);
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(45, 34, 25, 0.9);
+  margin-bottom: 20px;
+  max-width: 480px;
+}
+
+.about-bio-footer {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* Desktop layout: TEXT COLUMN (45%) / IMAGE COLUMN (35%) */
+.about-me-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.about-text-column {
+  width: 45%;
+}
+
+.about-image-column {
+  width: 35%;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+
+/* Polaroid Card Component */
+.polaroid-card {
+  background: #ffffff;
+  padding: 12px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transform-origin: center center;
+}
+
+.polaroid-card:hover {
+  transform: translateY(-6px) rotate(var(--hover-rotate, 4deg)) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+.polaroid-image-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #FAF8F4;
+}
+
+.polaroid-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Polaroid 1 (Main - sitting slightly higher, 4deg rotate only) - reduced to 320px */
+.about-polaroid-main {
+  width: 320px;
+  max-width: 100%;
+  margin-top: -30px;
+  --hover-rotate: 4deg;
+}
+
+.polaroid-footer {
+  padding-top: 18px;
+  padding-bottom: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.polaroid-signature {
+  font-family: var(--font-script);
+  font-size: 54px;
+  color: #2D2219;
+  line-height: 0.6;
+  user-select: none;
+}
+
+/* Trajectory SVG Layer */
+.about-trajectory-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+
+.about-trajectory-svg--bottom {
+  z-index: 2;
+}
+
+.about-path {
+  stroke: rgba(196, 154, 71, 0.8);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 4 14;
+}
+
+.about-arrow {
+  opacity: 0.95;
+}
+
+/* Block 2: What Guides Me styling (Height Reduced to ~300px) */
+.about-guides-section {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  min-height: 300px;
+}
+
+.about-guides-container {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
+.about-guide-card {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.guide-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(196, 154, 71, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: #c49a47;
+}
+
+.guide-title {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: #2D2219;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.guide-desc {
+  font-family: var(--font-serif-cormorant);
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(45, 34, 25, 0.8);
+  max-width: 240px;
+}
+
+/* Vertical divider between columns */
+.guide-vertical-divider {
+  position: absolute;
+  right: -40px;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background-color: var(--color-accent);
+  opacity: 0.25;
+}
+
+/* Block 3: Let's Connect styling */
+.about-connect-section {
+  padding-top: 80px;
+  padding-bottom: 120px;
+  position: relative;
+}
+
+/* Heading: reduced to clamp(42px, 5.5vw, 68px) */
+.about-title--connect {
+  font-size: clamp(42px, 5.5vw, 68px);
+  color: #2D2219;
+  line-height: 1.0;
+}
+
+.about-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(196, 154, 71, 0.15);
+}
+
+.contact-icon {
+  margin-top: 4px;
+  color: #c49a47;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: #c49a47;
+  text-transform: uppercase;
+}
+
+/* Contact values reduced to 22px */
+.contact-value, .contact-link {
+  font-family: var(--font-serif-cormorant);
+  font-size: 22px;
+  color: #2D2219;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  line-height: 1.2;
+}
+
+.contact-link:hover {
+  color: #c49a47;
+}
+
+/* Delicate wildflower illustration sketch (bottom right corner only, 10% opacity) */
+.botanical-illustration-container {
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Overlapping Polaroids positioning - stacked like scattered postcards, right side only */
+.about-polaroid-connect {
+  max-width: 90%;
+  z-index: 10;
+}
+
+/* Connect polaroids scaled down to 220px and 180px, stacked tighter */
+.about-polaroid-sunset {
+  width: 220px !important;
+  position: absolute;
+  top: -20px;
+  right: 110px;
+  transform: rotate(5deg);
+  --hover-rotate: 5deg;
+}
+
+.about-polaroid-road {
+  width: 180px !important;
+  position: absolute;
+  top: 130px;
+  right: 0px;
+  transform: rotate(-4deg);
+  --hover-rotate: -4deg;
+  z-index: 12;
+}
+
+/* active link active style */
+.nav-link.active {
+  color: #c49a47 !important;
+}
+
+.nav-link.active .nav-link-line {
+  transform: scaleX(1) !important;
+  background: #c49a47 !important;
+}
+
+/* GSAP Reveal animation hidden states */
+.about-reveal-text,
+.about-reveal-guides-hdr,
+.about-guide-col,
+.about-reveal-connect,
+.about-polaroid-main,
+.about-polaroid-sunset,
+.about-polaroid-road {
+  will-change: transform, opacity, filter;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .about-me-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-text-column {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .about-image-column {
+    width: 100%;
+    max-width: 600px;
+    justify-content: center;
+    padding-top: 60px;
+  }
+
+  .about-polaroid-main {
+    margin-top: 0;
+    max-width: 320px;
+  }
+
+  .about-guides-container {
+    gap: 40px;
+  }
+
+  .guide-vertical-divider {
+    display: none;
+  }
+
+  .about-polaroid-sunset {
+    right: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .about-container {
+    padding-inline: 24px;
+  }
+  
+  .about-title {
+    font-size: clamp(38px, 8vw, 54px);
+  }
+  
+  .about-bio-paragraph {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  
+  .about-polaroid-main {
+    max-width: 280px;
+  }
+  
+  .polaroid-signature {
+    font-size: 40px;
+  }
+  
+  .about-guides-section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .about-guides-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+  }
+  
+  .about-guide-card {
+    border-bottom: 1px solid rgba(196, 154, 71, 0.15);
+    padding-bottom: 20px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .about-guide-card:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .about-trajectory-svg {
+    display: none;
+  }
+
+  .about-connect-section {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+
+  .about-title--connect {
+    font-size: clamp(32px, 8vw, 48px);
+  }
+
+  .contact-value, .contact-link {
+    font-size: 18px;
+  }
+  
+  .about-polaroid-connect {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 0 auto;
+  }
+
+  .about-polaroid-sunset {
+    width: 200px !important;
+    transform: rotate(3deg) !important;
+    margin-bottom: 24px;
+    --hover-rotate: 3deg;
+  }
+  
+  .about-polaroid-road {
+    width: 160px !important;
+    transform: rotate(-3deg) !important;
+    --hover-rotate: -3deg;
+  }
+  
+  .botanical-illustration-container {
+    opacity: 0.15;
+    bottom: 0;
+  }
+}
 
