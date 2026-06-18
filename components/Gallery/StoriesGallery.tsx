@@ -410,17 +410,14 @@ export default function StoriesGallery() {
           },
         });
 
-        // Position dot at segment start
-        tl.set(dotRef.current, { x: startPt.x, y: startPt.y, opacity: 0 }, 0);
-
-        // Dot fades in
-        tl.to(dotRef.current, { opacity: 1, duration: 0.2 }, 0);
-
-        // Path reveals slowly
-        tl.to(mp, { strokeDashoffset: 0, duration: 3.2, ease: "power1.inOut" }, 0);
-
-        // Dot travels the path
         if (dotRef.current) {
+          // Position dot at segment start
+          tl.set(dotRef.current, { x: startPt.x, y: startPt.y, opacity: 0 }, 0);
+
+          // Dot fades in
+          tl.to(dotRef.current, { opacity: 1, duration: 0.2 }, 0);
+
+          // Dot travels the path
           tl.to(
             dotRef.current,
             {
@@ -436,6 +433,9 @@ export default function StoriesGallery() {
             0.2
           );
         }
+
+        // Path reveals slowly
+        tl.to(mp, { strokeDashoffset: 0, duration: 3.2, ease: "power1.inOut" }, 0);
       }
     }, sectionRef);
 

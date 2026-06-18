@@ -21,7 +21,6 @@ export default function AboutSection() {
   const guidesColsRef = useRef<HTMLDivElement | null>(null);
   
   const connectTextRef = useRef<HTMLDivElement | null>(null);
-  const connectPolaroidsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -36,10 +35,6 @@ export default function AboutSection() {
           gsap.set(scope.querySelectorAll(".about-reveal-text"), { opacity: 1, y: 0 });
           const mainPol = scope.querySelector(".about-polaroid-main");
           if (mainPol) gsap.set(mainPol, { opacity: 1, scale: 1, rotate: "4deg", filter: "blur(0px)" });
-          const sunsetPol = scope.querySelector(".about-polaroid-sunset");
-          if (sunsetPol) gsap.set(sunsetPol, { opacity: 1, scale: 1, rotate: "5deg", filter: "blur(0px)" });
-          const roadPol = scope.querySelector(".about-polaroid-road");
-          if (roadPol) gsap.set(roadPol, { opacity: 1, scale: 1, rotate: "-4deg", filter: "blur(0px)" });
           gsap.set(scope.querySelectorAll(".about-path"), { strokeDashoffset: 0 });
         }
         return;
@@ -137,7 +132,7 @@ export default function AboutSection() {
         );
       }
 
-      // ─── Animation 3: Let's Connect Block (Text & Polaroid Pair) ───
+      // ─── Animation 3: Let's Connect Block ───
       if (connectTextRef.current) {
         const textElements = connectTextRef.current.querySelectorAll(".about-reveal-connect");
         gsap.fromTo(
@@ -155,31 +150,6 @@ export default function AboutSection() {
             },
           }
         );
-      }
-
-      if (connectPolaroidsRef.current) {
-        const polaroids = connectPolaroidsRef.current.querySelectorAll(".about-polaroid-connect");
-        polaroids.forEach((card, index) => {
-          const targetRotate = index === 0 ? 5 : -4;
-          const initialRotate = index === 0 ? 9 : -8;
-          gsap.fromTo(
-            card,
-            { opacity: 0, scale: 0.92, rotate: `${initialRotate}deg`, filter: "blur(8px)" },
-            {
-              opacity: 1,
-              scale: 1,
-              rotate: `${targetRotate}deg`,
-              filter: "blur(0px)",
-              duration: 1.4,
-              delay: index * 0.2,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: connectPolaroidsRef.current,
-                start: "top 75%",
-              },
-            }
-          );
-        });
       }
     }, sectionRef);
 
@@ -344,9 +314,9 @@ export default function AboutSection() {
       <div id="contact" className="about-connect-section relative z-10">
         <div className="about-container max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 relative">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div className="flex flex-col items-start w-full">
             {/* Left Column: Connect Details */}
-            <div ref={connectTextRef} className="lg:col-span-6 flex flex-col items-start relative z-20">
+            <div ref={connectTextRef} className="flex flex-col items-start relative z-20 w-full max-w-[600px]">
               <span className="about-eyebrow about-reveal-connect">LET'S CONNECT</span>
               <h2 className="about-title about-title--connect about-reveal-connect">
                 Let's create<br />something meaningful.
@@ -416,41 +386,6 @@ export default function AboutSection() {
                   </div>
                 </div>
 
-              </div>
-            </div>
-
-            {/* Right Column: Overlapping Polaroids & Delicate NZ Wildflower Sketch */}
-            <div ref={connectPolaroidsRef} className="lg:col-span-6 flex justify-end items-center relative min-h-[500px] w-full">
-              
-              {/* Botanical Illustration overlay (delicate hand-drawn NZ wildflower stems in bottom-right corner) */}
-              <div className="botanical-illustration-container" aria-hidden="true">
-                <svg width="320" height="500" viewBox="0 0 320 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* Stem 1 (delicate sketch) */}
-                  <path d="M300 500 C270 380 230 250 250 120 C255 80 265 40 270 10" stroke="#c49a47" strokeWidth="0.8" strokeLinecap="round" opacity="0.1" />
-                  
-                  {/* Stem 1 leaves / buds */}
-                  <path d="M235 320 Q200 300 170 310" stroke="#c49a47" strokeWidth="0.6" opacity="0.1" />
-                  <ellipse cx="170" cy="310" rx="1.5" ry="3.5" transform="rotate(-15 170 310)" fill="none" stroke="#c49a47" strokeWidth="0.8" opacity="0.1" />
-                  
-                  <path d="M245 220 Q280 190 300 205" stroke="#c49a47" strokeWidth="0.6" opacity="0.1" />
-                  <ellipse cx="300" cy="205" rx="1.5" ry="3.5" transform="rotate(20 300 205)" fill="none" stroke="#c49a47" strokeWidth="0.8" opacity="0.1" />
-
-                  {/* Stem 2 (wildflower branch) */}
-                  <path d="M290 500 C250 400 190 280 175 160 C165 100 155 60 135 20" stroke="#c49a47" strokeWidth="0.8" strokeLinecap="round" opacity="0.1" />
-                  
-                  <path d="M220 360 Q170 340 140 370" stroke="#c49a47" strokeWidth="0.6" opacity="0.1" />
-                  <ellipse cx="140" cy="370" rx="1.5" ry="3.5" transform="rotate(-30 140 370)" fill="none" stroke="#c49a47" strokeWidth="0.8" opacity="0.1" />
-                  
-                  <path d="M200 260 Q240 220 270 240" stroke="#c49a47" strokeWidth="0.6" opacity="0.1" />
-                  <ellipse cx="270" cy="240" rx="1.5" ry="3.5" transform="rotate(15 270 240)" fill="none" stroke="#c49a47" strokeWidth="0.8" opacity="0.1" />
-
-                  <path d="M185 140 Q130 110 110 135" stroke="#c49a47" strokeWidth="0.6" opacity="0.1" />
-                  <ellipse cx="110" cy="135" rx="1.5" ry="3.5" transform="rotate(-40 110 135)" fill="none" stroke="#c49a47" strokeWidth="0.8" opacity="0.1" />
-
-                  {/* Stem 3 (very thin bud) */}
-                  <path d="M310 500 C290 440 270 360 285 280" stroke="#c49a47" strokeWidth="0.6" strokeLinecap="round" opacity="0.1" />
-                  <ellipse cx="285" cy="280" rx="1.2" ry="3" transform="rotate(5 285 280)" fill="none" stroke="#c49a47" strokeWidth="0.6" opacity="0.1" />
-                </svg>
               </div>
             </div>
           </div>
