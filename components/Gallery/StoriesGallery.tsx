@@ -158,6 +158,7 @@ export default function StoriesGallery() {
 
       // ── Reduced motion: show everything immediately ──────────────────────
       if (prefersReducedMotion) {
+        gsap.set(".stories-header__eyebrow, .stories-header__title", { opacity: 1, y: 0 });
         STORIES.forEach((story, idx) => {
           const row = cardRefs.current[idx];
           const card = row?.querySelector(".story-card");
@@ -185,28 +186,41 @@ export default function StoriesGallery() {
         return;
       }
 
-      // ── Set Card 1 as fully visible from mount ───────────────────────────
-      const firstRow = cardRefs.current[0];
-      const firstCard = firstRow?.querySelector(".story-card");
-      const firstMetaTop = firstRow?.querySelector(".story-card__meta-top");
-      const firstCaption = firstRow?.querySelector(".story-card__caption");
-      if (firstCard) {
-        gsap.set(firstCard, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: "blur(0px)",
-          rotation: STORIES[0].rotate,
-          pointerEvents: "auto",
+
+
+      // ── Stories Header scroll reveal ──
+      const headerTitle = sectionRef.current?.querySelector(".stories-header__title");
+      const headerEyebrow = sectionRef.current?.querySelector(".stories-header__eyebrow");
+      if (headerTitle && headerEyebrow) {
+        gsap.set([headerEyebrow, headerTitle], { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+          trigger: ".stories-header",
+          start: "top 65%",
+          onEnter: () => {
+            gsap.to([headerEyebrow, headerTitle], {
+              opacity: 1,
+              y: 0,
+              duration: 1,
+              stagger: 0.15,
+              ease: "power2.out",
+              overwrite: "auto",
+            });
+          },
+          onLeaveBack: () => {
+            gsap.to([headerEyebrow, headerTitle], {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              stagger: 0.1,
+              ease: "power2.in",
+              overwrite: "auto",
+            });
+          }
         });
-        firstCard.classList.add("visible");
       }
-      if (firstMetaTop) gsap.set(firstMetaTop, { opacity: 1, y: 0 });
-      if (firstCaption) gsap.set(firstCaption, { opacity: 1, y: 0 });
 
       // ── Hide all other cards in their cinematic initial state ─────────────
       STORIES.forEach((story, idx) => {
-        if (idx === 0) return;
         const row = cardRefs.current[idx];
         const card = row?.querySelector(".story-card");
         const metaTop = row?.querySelector(".story-card__meta-top");
@@ -338,7 +352,6 @@ export default function StoriesGallery() {
       // PER-CARD SCROLL TRIGGERS (independent, play+reverse)
       // ─────────────────────────────────────────────────────────────────────
       STORIES.forEach((story, idx) => {
-        if (idx === 0) return; // Card 1 is always visible
 
         const row = cardRefs.current[idx];
         const card = row?.querySelector(".story-card");
@@ -519,7 +532,7 @@ export default function StoriesGallery() {
             <StoryCard
               story={story}
               onLoad={handleImageLoad}
-              isActiveByDefault={index === 0}
+              isActiveByDefault={false}
             />
           </div>
         ))}

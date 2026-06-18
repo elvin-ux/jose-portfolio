@@ -30,12 +30,18 @@ export default function AboutSection() {
       ).matches;
 
       if (prefersReducedMotion) {
-        // Set everything to final state immediately
-        gsap.set(".about-reveal-text", { opacity: 1, y: 0 });
-        gsap.set(".about-polaroid-main", { opacity: 1, scale: 1, rotate: "4deg", filter: "blur(0px)" });
-        gsap.set(".about-polaroid-sunset", { opacity: 1, scale: 1, rotate: "5deg", filter: "blur(0px)" });
-        gsap.set(".about-polaroid-road", { opacity: 1, scale: 1, rotate: "-4deg", filter: "blur(0px)" });
-        gsap.set(".about-path", { strokeDashoffset: 0 });
+        // Set everything to final state immediately using scoped queries
+        const scope = sectionRef.current;
+        if (scope) {
+          gsap.set(scope.querySelectorAll(".about-reveal-text"), { opacity: 1, y: 0 });
+          const mainPol = scope.querySelector(".about-polaroid-main");
+          if (mainPol) gsap.set(mainPol, { opacity: 1, scale: 1, rotate: "4deg", filter: "blur(0px)" });
+          const sunsetPol = scope.querySelector(".about-polaroid-sunset");
+          if (sunsetPol) gsap.set(sunsetPol, { opacity: 1, scale: 1, rotate: "5deg", filter: "blur(0px)" });
+          const roadPol = scope.querySelector(".about-polaroid-road");
+          if (roadPol) gsap.set(roadPol, { opacity: 1, scale: 1, rotate: "-4deg", filter: "blur(0px)" });
+          gsap.set(scope.querySelectorAll(".about-path"), { strokeDashoffset: 0 });
+        }
         return;
       }
 

@@ -283,7 +283,9 @@ body {
   font-size: 0.8rem;
   margin-bottom: 18px;
   display: block;
-  opacity: 0.65;
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity;
   letter-spacing: 0.06em;
 }
 
@@ -296,6 +298,9 @@ body {
   line-height: 1.18;
   letter-spacing: -0.01em;
   max-width: 20ch;
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity;
 }
 
 /* ── Card stream ─────────────────────────────────────────────────── */
