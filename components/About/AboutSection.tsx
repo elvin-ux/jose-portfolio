@@ -353,7 +353,7 @@ export default function AboutSection() {
                   </div>
                   <div className="contact-details">
                     <span className="contact-label">PHONE</span>
-                    <a href="tel:+64220957125" className="contact-link">+64 21 123 4567</a>
+                    <a href="tel:+64220957125" className="contact-link">+64 22 095 7125</a>
                   </div>
                 </div>
 

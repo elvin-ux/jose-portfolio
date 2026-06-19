@@ -27,6 +27,21 @@ const linkVariants = {
 
 export default function HeroNavbar() {
   const [activeSection, setActiveSection] = useState<string>("");
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("header")) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [menuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,7 +86,7 @@ export default function HeroNavbar() {
           className="font-sans font-bold uppercase text-[var(--color-text)] tracking-[0.25em] inline-block hover:opacity-75 transition-opacity"
           style={{ fontSize: "0.85rem" }}
         >
-          Jose Vincent
+          jk_clicks
         </Link>
       </motion.div>
 
@@ -109,13 +124,27 @@ export default function HeroNavbar() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.8 }}
           type="button"
-          aria-label="Open navigation menu"
-          className="flex flex-col gap-[5px] items-end p-2 cursor-pointer focus-visible:outline-1 focus-visible:outline-[var(--color-neutral)]"
+          aria-label="Toggle navigation menu"
+          className="flex flex-col gap-[5px] items-end p-2 cursor-pointer focus-visible:outline-1 focus-visible:outline-[var(--color-neutral)] md:hidden"
+          onClick={() => setMenuOpen(!menuOpen)}
         >
           <span className="block w-6 h-[1px] bg-[var(--color-text)]" />
           <span className="block w-4 h-[1px] bg-[var(--color-text)]" />
           <span className="block w-5 h-[1px] bg-[var(--color-text)]" />
         </motion.button>
+      </div>
+
+      {/* Mobile Dropdown Panel Menu */}
+      <div className={`mobile-menu ${menuOpen ? "active" : ""}`} role="navigation" aria-label="Mobile navigation">
+        <Link href="#stories" onClick={() => setMenuOpen(false)}>
+          Work
+        </Link>
+        <Link href="#about" onClick={() => setMenuOpen(false)}>
+          About
+        </Link>
+        <Link href="#contact" onClick={() => setMenuOpen(false)}>
+          Contact
+        </Link>
       </div>
     </header>
   );

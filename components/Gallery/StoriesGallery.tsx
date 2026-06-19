@@ -523,12 +523,39 @@ export default function StoriesGallery() {
 
       {/* Card stream — zigzag editorial layout */}
       <div className="stories-stream">
+        {/* Tablet-only central timeline dashed line */}
+        <div className="tablet-timeline-line" aria-hidden="true" />
+
         {STORIES.map((story, index) => (
           <div
             key={story.id}
             ref={(el) => { cardRefs.current[index] = el; }}
-            className={`stories-stream__row stories-stream__row--${story.align} stories-stream__row--${story.size}`}
+            className={`stories-stream__row stories-stream__row--${story.align} stories-stream__row--${story.size} tablet-story-item--${story.align}`}
+            style={{
+              "--card-width": story.orientation === "portrait"
+                ? (story.size === "hero" ? "310px" : story.size === "large" ? "280px" : "250px")
+                : (story.size === "hero" ? "360px" : story.size === "large" ? "330px" : "290px")
+            } as React.CSSProperties}
           >
+            {/* Tablet-only curved connector */}
+            <div className="story-connector-wrapper" aria-hidden="true">
+              <svg className="story-connector" viewBox="0 0 120 80" preserveAspectRatio="none">
+                {story.align === "right" ? (
+                  <path d="M0,40 C20,45 35,0 70,15 C90,25 100,10 120,10" />
+                ) : (
+                  <path d="M120,40 C100,45 85,0 50,15 C30,25 20,10 0,10" />
+                )}
+                {/* Arrowhead at the end of every second connector */}
+                {index % 2 === 1 && (
+                  story.align === "right" ? (
+                    <path d="M 110 16 L 120 10 L 112 3" fill="none" stroke="#c49a47" strokeWidth="2.5" strokeLinecap="round" />
+                  ) : (
+                    <path d="M 10 16 L 0 10 L 8 3" fill="none" stroke="#c49a47" strokeWidth="2.5" strokeLinecap="round" />
+                  )
+                )}
+              </svg>
+            </div>
+
             <StoryCard
               story={story}
               onLoad={handleImageLoad}
