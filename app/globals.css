@@ -601,65 +601,9 @@ body {
     transform-origin: center center !important;
   }
 
-  /* Hide desktop trajectory lines on tablet */
-  .stories-trajectory {
-    display: none !important;
-  }
-
-  /* Center vertical timeline line on tablet */
-  .tablet-timeline-line {
-    display: block !important;
-    position: absolute;
-    top: clamp(40px, 8vw, 100px);
-    bottom: clamp(40px, 8vw, 100px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    border-left: 2.5px dashed rgba(184, 142, 68, 0.85);
-    z-index: 1;
-    pointer-events: none;
-  }
-
   /* Target exact custom property card widths on tablet */
   .story-card {
     width: var(--card-width) !important;
-  }
-
-  /* Connector positioning */
-  .story-connector-wrapper {
-    display: block !important;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 80px;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  /* Right rows: connector goes from center (50%) to the left edge of the card */
-  .tablet-story-item--right .story-connector-wrapper {
-    left: 50%;
-    right: calc(clamp(30px, 8vw, 90px) + var(--card-width) - 4px);
-  }
-
-  /* Left rows: connector goes from the right edge of the card to the center (50%) */
-  .tablet-story-item--left .story-connector-wrapper {
-    left: calc(clamp(30px, 8vw, 90px) + var(--card-width) - 4px);
-    right: 50%;
-  }
-
-  .story-connector {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-
-  .story-connector path {
-    fill: none;
-    stroke: #c49a47;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-dasharray: 4 12;
   }
 }
 

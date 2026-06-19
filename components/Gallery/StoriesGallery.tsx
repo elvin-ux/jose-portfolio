@@ -524,7 +524,7 @@ export default function StoriesGallery() {
       {/* Card stream — zigzag editorial layout */}
       <div className="stories-stream">
         {/* Tablet-only central timeline dashed line */}
-        <div className="tablet-timeline-line" aria-hidden="true" />
+      
 
         {STORIES.map((story, index) => (
           <div
